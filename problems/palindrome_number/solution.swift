@@ -1,11 +1,15 @@
 class Solution {
-    func isPalindrome(_ x: Int) -> Bool {
+func isPalindrome(_ x: Int) -> Bool {
   if x < 0 {
     return false
   }
   
-  if x < 10 {
+  if x >= 0 && x < 10 {
     return true
+  }
+  
+  if x % 10 == 0 {
+    return false
   }
   
   var original = x
@@ -15,8 +19,12 @@ class Solution {
     let remainder = original % 10
     reversed = reversed * 10 + remainder
     original = original / 10
+    
+    if  reversed  >= original{
+      return reversed == original || original == reversed / 10
+    }
   }
   
-  return reversed == x
+  return false
 }
 }
