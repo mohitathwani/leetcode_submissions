@@ -1,4 +1,4 @@
-    extension String {
+extension String {
   subscript(idx: Int) -> Character {
     return self[self.index(startIndex, offsetBy: idx)]
   }
@@ -7,18 +7,36 @@
   }
 }
 class Solution {
+func isMatch(_ string: String, _ pattern: String) -> Bool {
+  var T = [[Bool]](repeating: [Bool](repeating: false, count: pattern.count + 1), count: string.count + 1)
+  
+  T[0][0] = true
 
-func isMatch(_ s: String, _ p: String) -> Bool {
-  
-  if p.isEmpty {
-    return s.isEmpty
+  //For patterns like a*, a*b*c* etc...
+  if pattern.count > 0 {
+    for i in 1...pattern.count {
+      if pattern[i - 1] == "*" {
+        T[0][i] = T[0][i - 2]
+      }
+    }
   }
   
-  let firstMatch = !s.isEmpty && (s[0] == p[0] || p[0] == ".")
-  
-  if p.count > 1 && p[1] == "*" {
-    return firstMatch && isMatch(s[1..<s.count], p) || isMatch(s, p[2..<p.count])
+  if string.count > 0 {
+    for i in 1...string.count {
+      if pattern.count > 0 {
+        for j in 1...pattern.count {
+          if string[i - 1] == pattern[j - 1] || pattern[j - 1] == "." {
+            T[i][j] = T[i - 1][j - 1];
+          }
+          if pattern[j - 1] == "*" {
+            T[i][j] = T[i][j - 2] || (T[i - 1][j] && (string[i - 1] == pattern[j - 2] || pattern[j - 2] == "."))
+          }
+        }
+      }
+    }
   }
-  return firstMatch && isMatch(s[1..<s.count], p[1..<p.count])
+  
+  return T[string.count][pattern.count]
+  
 }
 }
