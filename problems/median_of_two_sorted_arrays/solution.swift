@@ -7,9 +7,10 @@ class Solution {
     var start = 0
     var end = a.count
     
+    let N = a.count + b.count
     while start <= end {
         var numElementsFromAInLeftPartition = (start + end) / 2
-        var numElementsFromBInLeftPartition = ((a.count + b.count + 1) / 2) - numElementsFromAInLeftPartition
+        var numElementsFromBInLeftPartition = ((N + 1) / 2) - numElementsFromAInLeftPartition
         
         var maxLeftA = (numElementsFromAInLeftPartition == 0) ? Int.min : a[numElementsFromAInLeftPartition - 1]
         var minRightA = (numElementsFromAInLeftPartition == a.count) ? Int.max : a[numElementsFromAInLeftPartition]
